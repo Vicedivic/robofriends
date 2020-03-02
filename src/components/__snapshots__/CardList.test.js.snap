@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardList renders properly 1`] = `
+<div>
+  <Card
+    email="sincere@april.biz"
+    id={1}
+    name="Leanne Graham"
+  />
+  <Card
+    email="shanna@melissa.tv"
+    id={2}
+    name="Ervin Howell"
+  />
+  <Card
+    email="nathan@yesenia.net"
+    id={3}
+    name="Clementine Bauch"
+  />
+  <Card
+    email="julianna.oconner@kory.org"
+    id={4}
+    name="Patricia Lebsack"
+  />
+</div>
+`;
