@@ -5,7 +5,7 @@ const SearchBox = ({ searchChange }) => {
     <div>
       <label htmlFor="search" style={{ fontSize: 0, position: "absolute" }}>Search</label>
       <input
-        className="pa3 ba b--green bg-lightest-blue"
+        className="search"
         type="search"
         placeholder="search robots"
         onChange={searchChange}
