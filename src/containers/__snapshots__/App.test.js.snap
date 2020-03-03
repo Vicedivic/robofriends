@@ -13,7 +13,30 @@ exports[`App renders properly 1`] = `
   <Scroll>
     <ErrorBoundry>
       <CardList
-        robots={Array []}
+        robots={
+          Array [
+            Object {
+              "email": "sincere@april.biz",
+              "id": 1,
+              "name": "Leanne Graham",
+            },
+            Object {
+              "email": "shanna@melissa.tv",
+              "id": 2,
+              "name": "Ervin Howell",
+            },
+            Object {
+              "email": "nathan@yesenia.net",
+              "id": 3,
+              "name": "Clementine Bauch",
+            },
+            Object {
+              "email": "julianna.oconner@kory.org",
+              "id": 4,
+              "name": "Patricia Lebsack",
+            },
+          ]
+        }
       />
     </ErrorBoundry>
   </Scroll>

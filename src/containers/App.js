@@ -1,39 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import CardList from "../components/CardList";
 import SearchBox from "../components/SearchBox";
 import Scroll from "../components/Scroll";
-import axios from "axios";
 import ErrorBoundry from "../components/ErrorBoundry";
+import { setSearchField } from "../redux/actions/search";
+import { getRobots } from "../redux/actions/robot";
 
-const App = () => {
-  const [robots, setRobots] = useState([]);
-  const [searchField, setSearchField] = useState("");
+export const App = ({ searchField, setSearchField, robot, getRobots }) => {
+  const { robots, pending, error } = robot;
 
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then(res =>
-        setRobots(
-          res.data.filter(robot => ({
-            id: robot.id,
-            name: robot.name,
-            email: robot.email
-          }))
-        )
-      )
-      .catch(err => console.log(err));
+    getRobots();
   }, []);
-
-  const onSearchChange = e => setSearchField(e.target.value);
 
   const filteredRobots = robots.filter(robots => {
     return robots.name.toLowerCase().includes(searchField.toLowerCase());
   });
 
-  return (
+  return pending ? (
+    <h1>Loading</h1>
+  ) : (
     <div className="tc">
       <h1>RoboFriends</h1>
-      <SearchBox searchChange={onSearchChange} />
+      <SearchBox searchChange={e => setSearchField(e.target.value)} />
       <Scroll>
         <ErrorBoundry>
           <CardList robots={filteredRobots} />
@@ -43,4 +33,9 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = state => ({
+  searchField: state.search.searchField,
+  robot: state.robot
+});
+
+export default connect(mapStateToProps, { setSearchField, getRobots })(App);

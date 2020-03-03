@@ -2,19 +2,26 @@ import React from "react";
 import { create, act } from "react-test-renderer";
 import { mount } from "enzyme";
 import ShallowRenderer from "react-shallow-renderer";
-import axios from "axios";
-import App from "./App";
+import { App } from "./App";
 import robotData from "../robots";
 import SearchBox from "../components/SearchBox";
 import Scroll from "../components/Scroll";
 import CardList from "../components/CardList";
 
 describe("App", () => {
+  const mockGetRobots = jest.fn();
+  const props = {
+    searchField: "",
+    setSearchField: jest.fn(),
+    robot: { robots: robotData, pending: false, error: null },
+    getRobots: mockGetRobots,
+  };
   const mockOnSearchChange = jest.fn();
   const renderer = new ShallowRenderer();
-  const appHtml = renderer.render(<App />);
+  const appHtml = renderer.render(<App {...props} />);
   const app = mount(
     <App
+      {...props}
       children={
         <div className="tc">
           <h1>RoboFriends</h1>
@@ -31,44 +38,11 @@ describe("App", () => {
     expect(appHtml).toMatchSnapshot();
   });
 
-  describe("on mount", () => {
-    const axiosGetSpy = jest
-      .spyOn(axios, "get")
-      .mockResolvedValueOnce({ data: robotData });
-    const consoleOutput = [];
-    const originalConsoleLog = console.log;
-
-    beforeEach(() => {
-      console.log = output => consoleOutput.push(output);
+  it("calls the get robots action on mount", () => {
+    act(() => {
+      create(<App {...props} />);
     });
-
-    afterEach(() => {
-      console.log = originalConsoleLog;
-    });
-
-    it("successfully fetches data from api", async () => {
-      await act(async () => {
-        create(<App />);
-      });
-      expect(axiosGetSpy).toBeCalledWith(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-    });
-
-    it("logs error on fetch fail", async () => {
-      axios.get.mockImplementation(
-        () =>
-          new Promise((resolve, reject) => {
-            return reject("Testing error");
-          })
-      );
-
-      await act(async () => {
-        create(<App />);
-      });
-
-      expect(consoleOutput).toEqual(expect.arrayContaining(["Testing error"]));
-    });
+    expect(mockGetRobots).toHaveBeenCalled();
   });
 
   describe("when input is typed into the search field", () => {

@@ -6,7 +6,7 @@ exports[`Card renders properly 1`] = `
 >
   <img
     alt="robots"
-    src=""
+    src="1.jpg"
   />
   <div>
     <h2>
