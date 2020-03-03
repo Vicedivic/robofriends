@@ -6,13 +6,14 @@ import Scroll from "../components/Scroll";
 import ErrorBoundry from "../components/ErrorBoundry";
 import { setSearchField } from "../redux/actions/search";
 import { getRobots } from "../redux/actions/robot";
+import Header from "../components/Header";
 
 export const App = ({ searchField, setSearchField, robot, getRobots }) => {
-  const { robots, pending, error } = robot;
+  const { robots, pending } = robot;
 
   useEffect(() => {
     getRobots();
-  }, []);
+  }, [getRobots]);
 
   const filteredRobots = robots.filter(robots => {
     return robots.name.toLowerCase().includes(searchField.toLowerCase());
@@ -22,7 +23,7 @@ export const App = ({ searchField, setSearchField, robot, getRobots }) => {
     <h1>Loading</h1>
   ) : (
     <div className="tc">
-      <h1>RoboFriends</h1>
+      <Header />
       <SearchBox searchChange={e => setSearchField(e.target.value)} />
       <Scroll>
         <ErrorBoundry>
@@ -33,7 +34,7 @@ export const App = ({ searchField, setSearchField, robot, getRobots }) => {
   );
 };
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   searchField: state.search.searchField,
   robot: state.robot
 });

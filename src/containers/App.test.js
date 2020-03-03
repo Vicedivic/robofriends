@@ -2,7 +2,7 @@ import React from "react";
 import { create, act } from "react-test-renderer";
 import { mount } from "enzyme";
 import ShallowRenderer from "react-shallow-renderer";
-import { App } from "./App";
+import { App, mapStateToProps } from "./App";
 import robotData from "../robots";
 import SearchBox from "../components/SearchBox";
 import Scroll from "../components/Scroll";
@@ -18,7 +18,7 @@ describe("App", () => {
   };
   const mockOnSearchChange = jest.fn();
   const renderer = new ShallowRenderer();
-  const appHtml = renderer.render(<App {...props} />);
+  let appHtml = renderer.render(<App {...props} />);
   const app = mount(
     <App
       {...props}
@@ -38,6 +38,23 @@ describe("App", () => {
     expect(appHtml).toMatchSnapshot();
   });
 
+  describe("when fetching robots", () => {
+    afterEach(() => {
+      props.robot.pending = false;
+      appHtml = renderer.render(<App {...props} />);
+    });
+    
+    it("returns h1", () => {
+      props.robot.pending = true;
+      appHtml = renderer.render(<App {...props} />);
+      expect(appHtml).toMatchInlineSnapshot(`
+        <h1>
+          Loading
+        </h1>
+      `);
+    });
+  });
+
   it("calls the get robots action on mount", () => {
     act(() => {
       create(<App {...props} />);
@@ -55,6 +72,12 @@ describe("App", () => {
 
     it("calls the on search function", () => {
       // expect(mockOnSearchChange.mock.calls[0][0]).toBe("test");
+    });
+  });
+
+  describe("mapStateToProps", () => {
+    it("returns the correct props", () => {
+      expect(mapStateToProps({ search: { searchField: "test" }, robot: {} })).toEqual({ searchField: "test", robot: {} });
     });
   });
 });
