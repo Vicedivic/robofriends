@@ -49,7 +49,7 @@ describe("App", () => {
       appHtml = renderer.render(<App {...props} />);
       expect(appHtml).toMatchInlineSnapshot(`
         <h1>
-          Loading
+          Loading...
         </h1>
       `);
     });
