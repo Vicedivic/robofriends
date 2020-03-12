@@ -4,6 +4,6 @@ exports[`Header renders properly 1`] = `
 <h1
   className="f1"
 >
-  RoboFriends
+  RoboFriends - Where Robots Meet
 </h1>
 `;

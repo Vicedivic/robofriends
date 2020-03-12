@@ -14,7 +14,9 @@
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "husky": "^4.2.3",
+    "pretty-quick": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,6 +44,7 @@
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "prettier": "1.19.1",
     "react-shallow-renderer": "^16.13.0",
     "react-test-renderer": "^16.13.0"
   },
@@ -52,5 +55,10 @@
       "!src/serviceWorker.js",
       "!src/redux/store.js"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
