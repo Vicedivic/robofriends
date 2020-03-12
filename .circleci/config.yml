@@ -1,20 +1,45 @@
 version: 2
 jobs:
-  bobby:
+  install:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/node
     steps:
       - checkout
-      - run: echo "A first hello"
-  sally:
+      - run: echo "Installing dependencies"
+      - run: npm install
+  build:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/node
     steps:
       - checkout
-      - run: echo "Double trouble"
+      - run: echo "Bundling app for production"
+      - run: CI=true npm run build
+  test:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run: echo "Testing app"
+      - run: npm test
+  deploy:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run: echo "Deploying app to server"
+      - run: npm run deploy
 workflows:
   version: 2
-  bobby_sally:
+  pr_workflow:
     jobs:
-      - bobby
-      - sally  
+      - install
+      - build:
+        requires:
+          - install
+      - test:
+        requires:
+          - install
+      - deploy:
+        requires:
+          - install
+          - build
