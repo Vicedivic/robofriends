@@ -2,8 +2,20 @@
 
 exports[`SearchBox renders properly 1`] = `
 <div>
+  <label
+    htmlFor="search"
+    style={
+      Object {
+        "fontSize": 0,
+        "position": "absolute",
+      }
+    }
+  >
+    Search
+  </label>
   <input
-    className="pa3 ba b--green bg-lightest-blue"
+    className="search"
+    id="search"
     onChange={[MockFunction]}
     placeholder="search robots"
     type="search"
