@@ -27,6 +27,9 @@ jobs:
       - run: npm install
       - run: echo "Bundling app for production"
       - run: CI=true npm run build
+      - run: echo "Setting GitHub user variables for deployment"
+      - run: git config user.email "victor@lfpost.dk"
+      - run: git config user.name "Vicedivic"
       - run: echo "Deploying app to server"
       - run: npm run deploy
 workflows:
